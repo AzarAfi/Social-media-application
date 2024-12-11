@@ -3,31 +3,34 @@ import User from "../model/user.model.js";
 
 const productRoute = async (req, res, next) => {
     try {
-        const token = req.cookies.jwt;
+        // Check if the token exists
+        const token = req.cookies?.jwt;
         if (!token) {
-            return res.status(400).json({ error: "unauthorized: no token provided" });
+            return res.status(401).json({ error: "Unauthorized: No token provided" });
         }
-        
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+        // Verify the token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: ["HS256"] });
         if (!decoded) {
-            return res.status(400).json({ error: "unauthorized: invalid token" });
+            return res.status(401).json({ error: "Unauthorized: Invalid token" });
         }
 
-        // Await the user lookup to ensure you get the actual user document
+        // Find the user in the database
         const user = await User.findOne({ _id: decoded.userId }).select("-password");
-
         if (!user) {
-            return res.status(400).json({ error: "user not found" });
+            return res.status(404).json({ error: "User not found" });
         }
 
-        // Attach the user to the request object
+        // Attach user to request and proceed
         req.user = user;
         next();
 
     } catch (error) {
-        console.log(`Error in product route middleware: ${error}`);
-        res.status(500).json({ error: "internal server error" });
+        console.error(`Error in product route middleware: ${error.message}`);
+        if (error.name === "JsonWebTokenError") {
+            return res.status(401).json({ error: "Unauthorized: Invalid token" });
+        }
+        res.status(500).json({ error: "Internal server error" });
     }
 };
 

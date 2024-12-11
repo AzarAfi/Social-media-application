@@ -1,5 +1,5 @@
 
-import { generateTokenAndSetCookie } from "../lib/generatetoken.js";
+import {generateTokenAndSetCookie} from "../lib/utils/gentrateToken.js"
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../middleware/auth.middleware.js"
@@ -37,7 +37,7 @@ export const signup = async (req, res) => {
 		});
 
 		if (newUser) {
-			generateTokenAndSetCookie(newUser._id, res);
+			generateTokenAndSetCookie(newUser._id,res)
 			await newUser.save();
 
 			res.status(201).json({
