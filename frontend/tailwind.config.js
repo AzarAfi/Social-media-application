@@ -1,5 +1,6 @@
 
 import daisyui from 'daisyui'
+import daisyUIThemes from "daisyui/src/theming/themes"
 
 /** @type {import('tailwindcss').Config} */
 
@@ -10,5 +11,16 @@ export default {
     extend: {},
   },
   plugins: [require('daisyui')],
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...daisyUIThemes["aqua"],
+          primary: "blue",
+          secondary: "teal",
+        },
+      },
+    ],
+  }, 
 }
 
