@@ -4,7 +4,7 @@ import connectDB from "./lib/db.js"
 import authRoute from "./router/auth.route.js"
 import cookieParser from "cookie-parser"
 import  messageRoute   from "./router/message.route.js"
-import cors from "cors"
+import cors from "cors" 
 
 const app = express()
 dotenv.config()

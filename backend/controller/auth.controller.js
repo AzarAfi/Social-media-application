@@ -34,6 +34,7 @@ export const signup = async (req, res) => {
 			fullName,
 			email,
 			password: hashedPassword,
+			profilePic:""
 		});
 
 		if (newUser) {
@@ -46,14 +47,18 @@ export const signup = async (req, res) => {
 				email: newUser.email,
 			  prfilePic:newUser.profilePic||"",
 			});
-		} else {
-			res.status(400).json({ error: "Invalid user data" });
-		}
+		} 
+
+			else {
+				res.status(400).json({ error: "Invalid user data" });
+			}
 	} catch (error) {
 		console.log("Error in signup controller", error.message);
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 };
+
+
 
 export const login = async (req, res) => {
 	try {
@@ -99,7 +104,7 @@ export const updateProfile = async (req, res) => {
   
 	  if (!profilePic) {
 		return res.status(400).json({ message: "Profile pic is required" });
-	  }
+	  } 
   
 	  const uploadResponse = await cloudinary.uploader.upload(profilePic);
 	  const updatedUser = await User.findByIdAndUpdate(
