@@ -6,7 +6,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.4",
+    "social-media-application": "file:..",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
